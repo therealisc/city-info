@@ -1,0 +1,14 @@
+{
+  "configurations": {
+    "my-dotnet-config": {
+      "adapter": "netcoredbg",
+      "configuration": {
+        "request": "launch",
+        "program": "${workspaceRoot}/bin/Debug/net6.0/CityInfoAPI.dll",
+        "stopAtEntry": true,
+        "console": "integratedTerminal",
+        "cwd": "${workspaceRoot}"
+      }
+    }
+  }
+}
