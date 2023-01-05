@@ -3,22 +3,22 @@ using Microsoft.AspNetCore.StaticFiles;
 
 namespace CityInfo.API.Controllers;
 
-[Route("api/files")]
 [ApiController]
+[Route("api/files")]
 public class FilesController : ControllerBase
 {
     private readonly FileExtensionContentTypeProvider _fileExtensionContentTypeProvider;
 
     public FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
     {
-        _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider
-            ?? throw new System.ArgumentNullException(nameof(fileExtensionContentTypeProvider));
+        _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider;
     }
 
+    [HttpGet("{fileid}")]
     public ActionResult GetFile(string filedId)
     {
-        var pathToFile = "asdf";
-        
+        var pathToFile = "/home/therealisc/Downloads/63a1a8c8cbeb1.pdf";
+
         if(!System.IO.File.Exists(pathToFile))
         {
             return NotFound();
@@ -31,7 +31,7 @@ public class FilesController : ControllerBase
         }
 
         var bytes = System.IO.File.ReadAllBytes(pathToFile);
-        return File(bytes, "text/plain", Path.GetFileName(pathToFile));
+        return File(bytes, contentType, Path.GetFileName(pathToFile));
     }
 }
 
