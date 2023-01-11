@@ -2,8 +2,8 @@ namespace CityInfo.API.Services;
 
 public class CloudMailService : IMailService
 {
-    private string _mailTo = string.Empty;
-    private string _mailFrom = string.Empty;
+    private string? _mailTo = string.Empty;
+    private string? _mailFrom = string.Empty;
 
     public CloudMailService(IConfiguration configuration)
     {

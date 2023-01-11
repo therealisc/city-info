@@ -8,7 +8,7 @@
         "stopAtEntry": true,
         "console": "integratedTerminal",
         "cwd": "${workspaceRoot}",
-        "env": {"ASPNETCORE_URLS":"https://localhost:7138;http://localhost:5131", "ASPNETCORE_ENVIRONMENT":"Development"}
+        "env": {"ASPNETCORE_URLS":"https://localhost:7094;http://localhost:5131", "ASPNETCORE_ENVIRONMENT":"Development"}
       }
     }
   }
