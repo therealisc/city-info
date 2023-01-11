@@ -128,6 +128,7 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
+            // Not working
             var pointOfInterestToPatch = _mapper.Map<PointOfInterestForUpdateDto>(pointOfInterestEntity);
 
             patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
