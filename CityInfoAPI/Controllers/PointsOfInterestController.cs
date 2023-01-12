@@ -122,14 +122,14 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
-            var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestForCityAsync(cityId, pointOfInterestId);
+            var pointOfInterestEntity = await _cityInfoRepository.GetPointOfInterestForCityAsync(cityId, pointOfInterestId);
+
             if (pointOfInterestEntity  == null)
             {
                 return NotFound();
             }
 
-            // Not working
-            var pointOfInterestToPatch = _mapper.Map<PointOfInterestForUpdateDto>(pointOfInterestEntity);
+            var pointOfInterestToPatch =  _mapper.Map<PointOfInterestForUpdateDto>(pointOfInterestEntity);
 
             patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
 
@@ -143,7 +143,7 @@ namespace CityInfo.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
+            _mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
 
             await _cityInfoRepository.SaveChangesAsync();
 
