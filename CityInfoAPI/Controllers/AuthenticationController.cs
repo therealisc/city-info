@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CityInfo.API.Controllers;
 
@@ -56,10 +58,26 @@ public class AuthenticationController : ControllerBase
 
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        return null;
+        var claimsForToken = new List<Claim>();
+        claimsForToken.Add(new Claim("sub", user.UserId.ToString(), null));
+        claimsForToken.Add(new Claim("given_name", user.FirstName, null ));
+        claimsForToken.Add(new Claim("family_name", user.LastName, null));
+        claimsForToken.Add(new Claim("city", user.City, null));
+
+        var jwtSecurityToken = new JwtSecurityToken(
+                _configuration["Authentication:Issuer"],
+                _configuration["Authentication:Audience"],
+                claimsForToken,
+                DateTime.UtcNow,
+                DateTime.UtcNow.AddHours(1),
+                signingCredentials);
+
+        var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+        return Ok(tokenToReturn);
     }
 
-    private object ValidateUserCredentials(string? userName, string? password)
+    private CityInfoUser ValidateUserCredentials(string? userName, string? password)
     {
         return new CityInfoUser(1, userName ?? "", "Ioan", "Scafa", "Antwerp");
     }
