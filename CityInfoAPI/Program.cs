@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 Log.Logger = new LoggerConfiguration()
@@ -37,6 +38,22 @@ builder.Services.AddSwaggerGen(setupAction =>
     var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
 
     setupAction.IncludeXmlComments(xmlCommentsFullPath);
+    setupAction.AddSecurityDefinition("CityInfoApiBearerAuth", new OpenApiSecurityScheme()
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Description = "Input a valid token to access this API"
+    });
+
+    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+           new OpenApiSecurityScheme()
+           {
+               Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "CityInfoApiBearerAuth" }
+           }, new List<string>()
+        }
+    });
 });
 
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
